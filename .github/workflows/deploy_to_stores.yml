@@ -1,0 +1,20 @@
+on: workflow_dispatch
+
+name: Submit to Web Stores
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2.1.2
+      - name: Install dependencies
+        run: npm install
+      - name: Build package
+        run: npm run build
+      - name: Create zip files
+        run: npm run build-zip
+      - name: Browser Plugin Publish
+        uses: plasmo-corp/bpp@v2
+        with:
+          keys: ${{ secrets.SUBMIT_KEYS }}
